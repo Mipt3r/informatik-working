@@ -7,23 +7,33 @@ using UnityEngine.UI;
 
 public class Points : MonoBehaviour
 {
-    public Text ValueText;
-
-    public int points = 0;
+    public int currentPoints = 0;
+    public int digits = 6;
     private string pointStr;
-    
-    // Update is called once per frame
-    void Update()
+    private Text ValueText;
+
+    void Start()
     {
+        ValueText = GameObject.FindWithTag("PointCounter").GetComponent<Text>();;
+    }
+    
+    public void GetPoints(int newPoints)
+    {
+        if (currentPoints + newPoints < Math.Pow((double)10, (double)digits) - 1){
+        currentPoints += newPoints;
+        }
+        else{
+            currentPoints = (int)Math.Pow((double)10, (double)digits) - 1;
+        } 
+
         pointStr = "";
-        while (pointStr.Length < 6 - points.ToString().Length)
+        while (pointStr.Length < digits - currentPoints.ToString().Length)
         {
             pointStr += '0';
         }
 
-        pointStr += points.ToString();
-        ValueText.text = "Points: " + pointStr;
+        pointStr += currentPoints.ToString();
+        ValueText.text = "POINTS: " + pointStr;
     }
-
 
 }

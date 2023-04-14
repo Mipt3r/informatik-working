@@ -7,22 +7,40 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-    public Text ValueText;
-    public float targetTime = 60.0f;
-    public Points points;
+    public float maxTime = 60.0f;
+    private Points points;
+    private string timeStr;
+    public int digits = 3;
+    private Text ValueText;
+
+    void Start()
+    {
+        maxTime += 1;
+        ValueText = GameObject.FindWithTag("Timer").GetComponent<Text>();
+        points = GameObject.FindWithTag("PointCounter").GetComponent<Points>();
+    }
 
     // Update is called once per frame
     void Update()
     {
-        if (targetTime >= 1.0f)
+        if (maxTime >= 0.5f)
         {
-            targetTime -= Time.deltaTime;
-            ValueText.text = "Time: " + Math.Floor(targetTime);
+            maxTime -= Time.deltaTime;
+
+            timeStr = "";
+            while (timeStr.Length < digits - Math.Floor(maxTime).ToString().Length)
+            {
+                timeStr += '0';
+            }
+
+            timeStr += Math.Floor(maxTime).ToString();
+        
+            ValueText.text = "TIME: " + timeStr;
         }
     }
 
     public void LevelEnd()
     {
-        points.points += Convert.ToInt32(Math.Floor(targetTime) * 10);
+        points.GetPoints(Convert.ToInt32(Math.Floor(maxTime) * 10));
     }
 }
