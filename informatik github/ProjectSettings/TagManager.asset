@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Timer
   - PointCounter
+  - Weapon
   layers:
   - Default
   - TransparentFX
