@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class attack : MonoBehaviour
 {
+    private Transform attackPoint;
     private Transform player;
     public GameObject hitBox;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,7 +20,7 @@ public class attack : MonoBehaviour
         if (Input.GetButtonDown("attack"))
         {
             Destroy(GameObject.FindWithTag("Weapon"), 0F);
-            Instantiate(hitBox, new Vector2(player.position.x + 1, player.position.y), Quaternion.identity);
+            Instantiate(hitBox, new Vector2(transform.position.x, transform.position.y), Quaternion.identity).transform.parent = transform;
         }
     }
 }
