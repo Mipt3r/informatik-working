@@ -8,7 +8,8 @@ public class Damage : MonoBehaviour
     private Points points;
     public int pointWorth;
     public int damageAmount = 1;
-
+     
+    //idk what is going on
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +29,12 @@ public class Damage : MonoBehaviour
         {
             //If the GameObject has the same tag as specified, output this message in the console
 
-            playerScript playerScript = other.gameObject.GetComponent<PlayerScript>();
+            playerScript playerScript = gameObject.GetComponent<playerScript>();
+            if (playerScript != null)
+            {
+                playerScript.lives -= damageAmount;
+                Debug.Log("Player health: " + playerScript.lives);
+            }
 
 
         }
