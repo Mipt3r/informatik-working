@@ -19,20 +19,23 @@ public class Points : MonoBehaviour
     
     public void GetPoints(int newPoints)
     {
-        if (currentPoints + newPoints < Math.Pow((double)10, (double)digits) - 1){
-        currentPoints += newPoints;
+        if (currentPoints + newPoints < 0)
+        {
+            currentPoints = 0;
         }
-        else{
+        else if (currentPoints + newPoints < Math.Pow((double)10, (double)digits) - 1)
+        {
+            currentPoints += newPoints;
+        }
+        else
+        {
             currentPoints = (int)Math.Pow((double)10, (double)digits) - 1;
         } 
 
-        pointStr = "";
-        while (pointStr.Length < digits - currentPoints.ToString().Length)
-        {
-            pointStr += '0';
-        }
+        
+        pointStr = new string('0', digits - currentPoints.ToString().Length) + currentPoints.ToString();
 
-        pointStr += currentPoints.ToString();
+        
         ValueText.text = "POINTS: " + pointStr;
     }
 

@@ -5,10 +5,11 @@ using UnityEngine;
 public class Disappearscript : MonoBehaviour
 {
 
+    public float time;
     // Start is called before the first frame update
     void Start()
     {
-        Destroy(gameObject, 0.2F);
+        Destroy(gameObject, time);
     }
 
     // Update is called once per frame

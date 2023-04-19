@@ -27,13 +27,7 @@ public class Timer : MonoBehaviour
         {
             maxTime -= Time.deltaTime;
 
-            timeStr = "";
-            while (timeStr.Length < digits - Math.Floor(maxTime).ToString().Length)
-            {
-                timeStr += '0';
-            }
-
-            timeStr += Math.Floor(maxTime).ToString();
+            timeStr = new string('0', digits - (int)Math.Floor(maxTime).ToString().Length) + Math.Floor(maxTime).ToString();
         
             ValueText.text = "TIME: " + timeStr;
         }
