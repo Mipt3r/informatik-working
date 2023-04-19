@@ -5,10 +5,17 @@ using UnityEngine;
 
 public class playerMovement : MonoBehaviour
 {
+    //enables the player to 
     Rigidbody2D rb;
+
+    public GameObject Player;
+
+
+
     void Start()
     {
-       rb = GetComponent<Rigidbody2D>();
+        Player = GameObject.FindGameObjectWithTag("Player");
+        rb = GetComponent<Rigidbody2D>();
     }
     //Movement
     public float speed;
@@ -19,8 +26,30 @@ public class playerMovement : MonoBehaviour
     //Grounded Vars
     bool isGrounded = true;
 
+    public int lives = 3;
+   
 
-    void Update()
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        isGrounded = true;
+        if (col.gameObject.tag == "Enemy")
+        {
+            lives--;
+            if (lives > 0)
+            {
+                StartCoroutine(Dead());
+            }
+        }
+        IEnumerator Dead()
+        {
+            Debug.Log("dead");
+            GetComponent<Renderer>().enabled = false;
+            yield return new WaitForSeconds(5);
+            Debug.Log("respawn");
+            GetComponent<Renderer>().enabled = true;
+        }
+    }
+        void Update()
     {
         //Jumping
         if (Input.GetButton("Jump"))
@@ -54,6 +83,6 @@ public class playerMovement : MonoBehaviour
     //Check if Grounded
     void OnTriggerEnter2D()
     {
-        isGrounded = true;
+        
     }
 }
