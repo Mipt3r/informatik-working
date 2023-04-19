@@ -7,6 +7,9 @@ public class Damage : MonoBehaviour
     private GameObject player;
     private Points points;
     public int pointWorth;
+    public int damageAmount = 1;
+     
+    //idk what is going on
     // Start is called before the first frame update
     void Start()
     {
@@ -25,9 +28,19 @@ public class Damage : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             //If the GameObject has the same tag as specified, output this message in the console
-            Destroy(player);
+
+            playerScript playerScript = gameObject.GetComponent<playerScript>();
+            if (playerScript != null)
+            {
+                playerScript.lives -= damageAmount;
+                Debug.Log("Player health: " + playerScript.lives);
+            }
+
+
         }
     }
+        
+ 
 
     void OnTriggerEnter2D(Collider2D collision)
     {

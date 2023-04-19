@@ -3,12 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class playerMovement : MonoBehaviour
+public class playerScript : MonoBehaviour
 {
+    //enables the player to move and defines public uses
     Rigidbody2D rb;
+    public int lives = 3;
+    public GameObject Player;
+
+
+
     void Start()
     {
-       rb = GetComponent<Rigidbody2D>();
+        Player = GameObject.FindGameObjectWithTag("Player");
+        rb = GetComponent<Rigidbody2D>();
     }
     //Movement
     public float speed;
@@ -18,9 +25,8 @@ public class playerMovement : MonoBehaviour
 
     //Grounded Vars
     bool isGrounded = true;
-
-
-    void Update()
+        
+        void Update()
     {
         //Jumping
         if (Input.GetButton("Jump"))
