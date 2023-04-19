@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class playerMovement : MonoBehaviour
+public class playerScript : MonoBehaviour
 {
-    //enables the player to 
+    //enables the player to move and defines public uses
     Rigidbody2D rb;
-
+    public int lives = 3;
     public GameObject Player;
 
 
@@ -25,30 +25,7 @@ public class playerMovement : MonoBehaviour
 
     //Grounded Vars
     bool isGrounded = true;
-
-    public int lives = 3;
-   
-
-    void OnTriggerEnter2D(Collider2D col)
-    {
-        isGrounded = true;
-        if (col.gameObject.tag == "Enemy")
-        {
-            lives--;
-            if (lives > 0)
-            {
-                StartCoroutine(Dead());
-            }
-        }
-        IEnumerator Dead()
-        {
-            Debug.Log("dead");
-            GetComponent<Renderer>().enabled = false;
-            yield return new WaitForSeconds(5);
-            Debug.Log("respawn");
-            GetComponent<Renderer>().enabled = true;
-        }
-    }
+        
         void Update()
     {
         //Jumping
@@ -83,6 +60,6 @@ public class playerMovement : MonoBehaviour
     //Check if Grounded
     void OnTriggerEnter2D()
     {
-        
+        isGrounded = true;
     }
 }
