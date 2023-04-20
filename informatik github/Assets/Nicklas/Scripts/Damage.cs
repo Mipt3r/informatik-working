@@ -30,11 +30,11 @@ public class Damage : MonoBehaviour
             //If the GameObject has the same tag as specified, output this message in the console
 
             playerScript playerScript = gameObject.GetComponent<playerScript>();
-            if (playerScript != null)
-            {
-                playerScript.lives -= damageAmount;
-                Debug.Log("Player health: " + playerScript.lives);
-            }
+
+            
+                player.GetComponent<playerScript>().lives -= damageAmount;
+                Debug.Log("Player health: " + player.GetComponent<playerScript>().lives);
+            
 
 
         }
