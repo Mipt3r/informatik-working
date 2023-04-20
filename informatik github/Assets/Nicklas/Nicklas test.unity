@@ -203,6 +203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointWorth: 100
+  damageAmount: 1
 --- !u!212 &65671543
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -315,6 +316,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitBox: {fileID: 7024748981986756989, guid: fd494d18241a80743a3a5e19c530534e, type: 3}
+  weaponThrown: {fileID: 7024748981986756989, guid: 02cdfded462ab3d48aaad428fedbeabf, type: 3}
+  throwVelocity: 10
+  cooldown: 0.25
 --- !u!1 &990819270
 GameObject:
   m_ObjectHideFlags: 0
