@@ -34,9 +34,6 @@ public class Damage : MonoBehaviour
             
                 player.GetComponent<playerScript>().lives -= damageAmount;
                 Debug.Log("Player health: " + player.GetComponent<playerScript>().lives);
-            
-
-
         }
     }
         
