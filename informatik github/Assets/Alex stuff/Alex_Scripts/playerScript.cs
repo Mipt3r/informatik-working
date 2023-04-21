@@ -86,7 +86,6 @@ public class playerScript : MonoBehaviour
         if (Input.GetButton("Left"))
         {
             gameObject.transform.rotation = Quaternion.Euler(0, 180f, 0);
-
             moveVelocity = -speed;
         }
         if (Input.GetButton("Right"))
