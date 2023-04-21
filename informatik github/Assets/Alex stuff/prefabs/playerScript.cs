@@ -10,7 +10,7 @@ public class playerScript : MonoBehaviour
     public int lives = 3;
     public GameObject Player;
     public Transform RespawnPoint;
-
+    //why is nothing working
     public int DeathTime;
 
     void Start()

@@ -718,6 +718,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1863238751}
     - target: {fileID: 7288559722459635122, guid: 655e24af19539de4cafc135ddf348a88, type: 3}
+      propertyPath: DeathTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7288559722459635122, guid: 655e24af19539de4cafc135ddf348a88, type: 3}
       propertyPath: RespawnPoint
       value: 
       objectReference: {fileID: 506448891}
