@@ -8,6 +8,7 @@ TagManager:
   - PointCounter
   - Weapon
   - Enemy
+  - ThrownWeapon
   layers:
   - Default
   - TransparentFX

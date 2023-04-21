@@ -50,6 +50,12 @@ public class Damage : MonoBehaviour
             Death();
             
         }
+        if (collision.gameObject.tag == "ThrownWeapon")
+        {
+            //If the GameObject's name matches the one you suggest, output this message in the console
+            Death();
+            
+        }
     }
 
     void Death()
