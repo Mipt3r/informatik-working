@@ -10,7 +10,7 @@ public class playerScript : MonoBehaviour
     public int lives = 3;
     public GameObject Player;
     public Transform RespawnPoint;
-
+    //why is nothing working
     public int DeathTime;
 
     void Start()
@@ -63,10 +63,13 @@ public class playerScript : MonoBehaviour
         //Left Right Movement
         if (Input.GetButton("Left"))
         {
+            gameObject.transform.rotation = Quaternion.Euler(0, 180f, 0);
+
             moveVelocity = -speed;
         }
         if (Input.GetButton("Right"))
         {
+            gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
             moveVelocity = speed;
         }
 
