@@ -13,30 +13,48 @@ public class playerScript : MonoBehaviour
     //why is nothing working
     public int DeathTime;
 
+    public Collider2D objectCollider;
+    public Collider2D anotherCollider;
+
+    //edited values for making the respawn mechanic work properly
+    public float movementSpeed;
+        public float movementJump;
+
+    //Movement
+        float speed;
+        float jump;
+        float moveVelocity;
     void Start()
     {
         Player = GameObject.FindGameObjectWithTag("Player");
         rb = GetComponent<Rigidbody2D>();
+        speed = movementSpeed;
+        jump = movementJump;
     }
-    //Movement
-    public float speed;
-    public float jump;
    
-    float moveVelocity;
 
     //Grounded Vars
     bool isGrounded = true;
         
         void Update()
     {
+
+        //checks if the player is touching the ground
+        if (objectCollider.IsTouching(anotherCollider))
+        {
+           isGrounded = true;
+        }
+        else
+        {
+         isGrounded = false;
+        }
+           
         //Jumping
         if (Input.GetButton("Jump"))
         {
             if (isGrounded)
             {
                 GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, jump);
-
-                isGrounded = false;
             }
 
         }
@@ -49,10 +67,14 @@ public class playerScript : MonoBehaviour
         IEnumerator Dead()
             {
             Debug.Log("dead");
+            speed = 0;
+            jump = 0;
             GetComponent<Renderer>().enabled = false;
             Player.transform.position = RespawnPoint.position;
             lives = 3;
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(DeathTime);
+            speed = movementSpeed;
+            jump = movementJump;
             Debug.Log("respawn");
             GetComponent<Renderer>().enabled = true;
             
@@ -75,11 +97,5 @@ public class playerScript : MonoBehaviour
 
         GetComponent<Rigidbody2D>().velocity = new Vector2(moveVelocity, GetComponent<Rigidbody2D>().velocity.y);
 
-    }
-   
-    //Check if Grounded
-    void OnTriggerEnter2D()
-    {
-        isGrounded = true;
     }
 }
