@@ -30,10 +30,11 @@ public class Attack : MonoBehaviour
             currentCooldown -= Time.deltaTime;
         }
 
-        if (Input.GetButtonDown("Attack") && GameObject.FindGameObjectsWithTag(thrownWeaponStr).Length == 0)
+        if (Input.GetButtonDown("Attack") && GameObject.FindGameObjectsWithTag(thrownWeaponStr).Length == 0 && currentCooldown <= 0.5)
         {
             Destroy(GameObject.FindWithTag(weaponStr), 0F);
             Instantiate(hitBox, new Vector2(transform.position.x, transform.position.y), Quaternion.identity).transform.parent = transform;
+            currentCooldown += cooldown;
         }
 
         if (Input.GetButtonDown("Throw"))
@@ -43,9 +44,12 @@ public class Attack : MonoBehaviour
                 Instantiate(weaponThrown, new Vector2(transform.position.x, transform.position.y), Quaternion.identity).GetComponent<Rigidbody2D>().velocity = new Vector2(transform.position.x - player.position.x, 0) * throwVelocity;
                 currentCooldown += cooldown;
             }
-            if (currentCooldown <= 0.5 && GameObject.FindGameObjectsWithTag(thrownWeaponStr).Length >= 0)
+            else
             {
-                Destroy(GameObject.FindWithTag(thrownWeaponStr), 0F);
+                if (currentCooldown <= 0.5)
+                {
+                    Destroy(GameObject.FindWithTag(thrownWeaponStr), 0F);
+                }
             }
         }
     }
