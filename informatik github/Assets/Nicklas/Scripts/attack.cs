@@ -47,10 +47,10 @@ public class Attack : MonoBehaviour
             }
             else
             {
-                if (currentCooldown <= 0.5 && !GameObject.FindGameObjectWithTag(thrownWeaponTag).GetComponent<ThrownWeaponScript>().returning)
+                if (currentCooldown <= 0.5 && !GameObject.FindGameObjectWithTag(thrownWeaponTag).GetComponent<Animator>().GetBool("returning"))
                 {
                     GameObject.FindGameObjectWithTag(thrownWeaponTag).GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
-                    GameObject.FindGameObjectWithTag(thrownWeaponTag).GetComponent<ThrownWeaponScript>().returning = true;
+                    GameObject.FindGameObjectWithTag(thrownWeaponTag).GetComponent<Animator>().SetBool("returning", true);
                 }
             }
         }
