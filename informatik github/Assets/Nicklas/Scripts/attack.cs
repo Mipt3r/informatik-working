@@ -12,8 +12,9 @@ public class Attack : MonoBehaviour
 
     private float currentCooldown = 0;
     private Transform player;
-    private string thrownWeaponStr = "ThrownWeapon";
-    private string weaponStr = "Weapon";
+    private string thrownWeaponTag = "ThrownWeapon";
+    private string weaponTag = "Weapon";
+
 
 
     // Start is called before the first frame update
@@ -30,25 +31,26 @@ public class Attack : MonoBehaviour
             currentCooldown -= Time.deltaTime;
         }
 
-        if (Input.GetButtonDown("Attack") && GameObject.FindGameObjectsWithTag(thrownWeaponStr).Length == 0 && currentCooldown <= 0.5)
+        if (currentCooldown <= 0.5 && Input.GetButtonDown("Attack") && GameObject.FindGameObjectsWithTag(thrownWeaponTag).Length == 0)
         {
-            Destroy(GameObject.FindWithTag(weaponStr), 0F);
+            Destroy(GameObject.FindWithTag(weaponTag), 0F);
             Instantiate(hitBox, new Vector2(transform.position.x, transform.position.y), Quaternion.identity).transform.parent = transform;
             currentCooldown += cooldown;
         }
 
         if (Input.GetButtonDown("Throw"))
         {
-            if (currentCooldown <= 0.5 && GameObject.FindGameObjectsWithTag(thrownWeaponStr).Length == 0)
+            if (currentCooldown <= 0.5 && GameObject.FindGameObjectsWithTag(thrownWeaponTag).Length == 0)
             {
                 Instantiate(weaponThrown, new Vector2(transform.position.x, transform.position.y), Quaternion.identity).GetComponent<Rigidbody2D>().velocity = new Vector2(transform.position.x - player.position.x, 0) * throwVelocity;
                 currentCooldown += cooldown;
             }
             else
             {
-                if (currentCooldown <= 0.5)
+                if (currentCooldown <= 0.5 && !GameObject.FindGameObjectWithTag(thrownWeaponTag).GetComponent<ThrownWeaponScript>().returning)
                 {
-                    Destroy(GameObject.FindWithTag(thrownWeaponStr), 0F);
+                    GameObject.FindGameObjectWithTag(thrownWeaponTag).GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+                    GameObject.FindGameObjectWithTag(thrownWeaponTag).GetComponent<ThrownWeaponScript>().returning = true;
                 }
             }
         }
