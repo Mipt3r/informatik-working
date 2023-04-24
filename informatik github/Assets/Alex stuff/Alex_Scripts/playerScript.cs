@@ -9,7 +9,7 @@ public class playerScript : MonoBehaviour
     Rigidbody2D rb;
     public int lives = 3;
     public GameObject Player;
-    public Transform RespawnPoint;
+    public GameObject RespawnPoint;
     //why is nothing working
     public int DeathTime;
 
@@ -25,6 +25,9 @@ public class playerScript : MonoBehaviour
     private float currentItemCooldown = 0;
     public HealthBar healthbar;
     public LayerMask groundLayer;
+    public Sprite checkedCheckPoint;
+    public Sprite unCheckedCheckPoint;
+
 
     //edited values for making the respawn mechanic work properly
     public float movementSpeed;
@@ -135,6 +138,13 @@ public class playerScript : MonoBehaviour
             collision.gameObject.transform.position = new Vector2(-300, -300);
             UpdateItem();
         }
+
+        if (collision.gameObject.tag == "CheckPoint")
+        {
+            RespawnPoint.GetComponent<SpriteRenderer>().sprite = unCheckedCheckPoint;
+            RespawnPoint = collision.gameObject;
+            RespawnPoint.GetComponent<SpriteRenderer>().sprite = checkedCheckPoint;
+        }
     }
 
     void UpdateItem()
@@ -158,6 +168,7 @@ public class playerScript : MonoBehaviour
             lives = 3;
         }
 
+        points.GetPoints(-50);
         healthbar.SetHealth(lives);
 
 
@@ -165,10 +176,11 @@ public class playerScript : MonoBehaviour
         IEnumerator Dead()
             {
             Debug.Log("dead");
+            points.GetPoints(-150);
             speed = 0;
             jump = 0;
             GetComponent<Renderer>().enabled = false;
-            Player.transform.position = RespawnPoint.position;
+            Player.transform.position = RespawnPoint.transform.position;
             lives = 3;
             yield return new WaitForSeconds(DeathTime);
             speed = movementSpeed;
