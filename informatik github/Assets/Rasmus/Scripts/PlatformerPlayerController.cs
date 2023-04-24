@@ -7,43 +7,31 @@ using System.IO;
 public class PlatformerPlayerController : MonoBehaviour
 {
     public float jumpGrav, normalGrav, jumpForce, runAcceleration, topSpeed, runDeacceleration,
-        switchDeacceleration, coyotetime, holdingTime, runningJumpExpantion, cutOffVelocity;
-    private float holdingTimer, coyotetimeTimer;
+        switchDeacceleration, coyoteTime, holdingTime, runningJumpExpantion, cutOffVelocity;
+    private float holdingTimer, coyoteTimeTimer;
     public bool onGround, stoppedJumping = false;
     public Rigidbody2D rb2D;
 
+
+    [SerializeField] private Sprite idleSprite;
+    private SpriteRenderer spriteRenderer;
+
     private void Start()
     {
-        holdingTimer = holdingTime;        
+        holdingTimer = holdingTime;   
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
     {
-        if (!onGround) { coyotetimeTimer += Time.deltaTime; }
-        holdingTimer += Time.deltaTime;
-
-        //Jump
-        if (Input.GetButtonDown("Jump"))
-        {
-            if (onGround || coyotetimeTimer < coyotetime)
-            {
-                Jump();
-                coyotetimeTimer = coyotetime;
-            }
-            else
-            {
-                holdingTimer = 0;
-            }
-        }
+        HandleInput();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         Run();
-
         DeaccelerateInX();
-
         ApplyGravity();
     }
 
@@ -66,6 +54,9 @@ public class PlatformerPlayerController : MonoBehaviour
 
         // Gets input from player
         float runDir = Input.GetAxisRaw("Horizontal");
+
+        // flips players animation
+        if (runDir != 0) spriteRenderer.flipX = runDir < 0;
 
         // Is the velocity under the max speed?
         if (runDir != 0 && rb2D.velocity.x * runDir < topSpeed) 
@@ -109,7 +100,7 @@ public class PlatformerPlayerController : MonoBehaviour
         rb2D.velocity = new Vector2(rb2D.velocity.x, jumpForce + Mathf.Abs(rb2D.velocity.x) * runningJumpExpantion);
         onGround = false;
         stoppedJumping = false;
-        coyotetimeTimer = 2*coyotetime;
+        coyoteTimeTimer = 2*coyoteTime;
     }
 
     // Testing if the player is on the ground
@@ -119,15 +110,52 @@ public class PlatformerPlayerController : MonoBehaviour
         { 
             onGround = true;
             stoppedJumping = false;
-            coyotetimeTimer = 0;
+            coyoteTimeTimer = 0;
             if(holdingTimer < holdingTime) { Jump(); holdingTimer = holdingTime; }
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Ground") 
-        { 
-            onGround = false;
+        {
+            onGround = true;
+            stoppedJumping = false;
+            coyoteTimeTimer = 0;
+            holdingTimer = 0;
+            if (holdingTimer < holdingTime) { Jump(); holdingTimer = holdingTime; }
+        }
+    }
+
+    private void HandleInput()
+    {
+        if (!onGround) { coyoteTimeTimer += Time.deltaTime; }
+        holdingTimer += Time.deltaTime;
+
+        // Jump
+        if (Input.GetButtonDown("Jump"))
+        {
+            if (onGround || coyoteTimeTimer < coyoteTime)
+            {
+                Jump();
+                coyoteTimeTimer = coyoteTime;
+            }
+            else
+            {
+                holdingTimer = 0;
+            }
+        }
+    }
+    void UpdateSprite()
+    {
+        // If the player is not moving on the x-axis, use the idle sprite
+        if (Mathf.Abs(rb2D.velocity.x) < 0.001f)
+        {
+            spriteRenderer.sprite = idleSprite;
+        }
+        else
+        {
+            //If the player is moving, play the running animation
+            spriteRenderer.sprite = Resources.Load<Sprite>("Lugio Walk");
         }
     }
 }
