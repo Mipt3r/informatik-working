@@ -8,12 +8,17 @@ public class Attack : MonoBehaviour
     public GameObject weaponThrown;
     public float throwVelocity = 5;
     public float cooldown = 0.25F;
+    public float itemCooldown = 0.25F;
+
     
 
     private float currentCooldown = 0;
+    private float currentItemCooldown = 0;
     private Transform player;
     private string thrownWeaponTag = "ThrownWeapon";
     private string weaponTag = "Weapon";
+    private Points points;
+
 
 
 
@@ -21,6 +26,7 @@ public class Attack : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        points = GameObject.FindWithTag("PointCounter").GetComponent<Points>();
     }
 
     // Update is called once per frame
@@ -29,6 +35,11 @@ public class Attack : MonoBehaviour
         if (currentCooldown >= 0.5)
         {
             currentCooldown -= Time.deltaTime;
+        }
+
+        if (currentItemCooldown >= 0.5)
+        {
+            currentItemCooldown -= Time.deltaTime;
         }
 
         if (currentCooldown <= 0.5 && Input.GetButtonDown("Attack") && GameObject.FindGameObjectsWithTag(thrownWeaponTag).Length == 0)
@@ -53,6 +64,11 @@ public class Attack : MonoBehaviour
                     GameObject.FindGameObjectWithTag(thrownWeaponTag).GetComponent<Animator>().SetBool("returning", true);
                 }
             }
+        }
+
+        if (Input.GetButtonDown("Item>"))
+        {
+
         }
     }
 }
