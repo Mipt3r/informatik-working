@@ -10,6 +10,11 @@ TagManager:
   - Enemy
   - ThrownWeapon
   - Ground
+  - ItemOutline
+  - ItemText
+  - Item
+  - ItemUI
+  - Heal
   layers:
   - Default
   - TransparentFX

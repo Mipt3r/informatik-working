@@ -11,35 +11,28 @@ public class ThrownWeaponScript : MonoBehaviour
     private Rigidbody2D rg;
     private Transform pTf;
     private Rigidbody2D pRg;
-    private Animator animation;
+    private Animator animator;
     public float time = 2;
     private float currentTime;
     private Vector2 returnVect;
-    private float xMovement;
-    private float yMovement;
-
-    
 
     void Start()
     {
         currentTime = time;
         tf = GetComponent<Transform>();
         rg = GetComponent<Rigidbody2D>();
-        animation = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
         pTf = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         pRg = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
-        if (animation.GetBool("returning"))
+        if (animator.GetBool("returning"))
         {
-            xMovement = pTf.position.x - tf.position.x;
-            yMovement = pTf.position.y - tf.position.y;
-
-            returnVect = new Vector2(xMovement, yMovement);
+            returnVect = new Vector2(pTf.position.x - tf.position.x, pTf.position.y - tf.position.y);
             
-            returnVect /= (float)Math.Sqrt(Math.Pow((double)xMovement, 2) + Math.Pow((double)yMovement, 2));
+            returnVect /= returnVect.magnitude;
 
             rg.velocity = returnVect * 20f;
         }
@@ -50,20 +43,21 @@ public class ThrownWeaponScript : MonoBehaviour
         
         if (collision.gameObject.tag == "Player")
         {
-            if (animation.GetBool("returning"))
+            if (animator.GetBool("returning"))
             {
                 Destroy(gameObject);
             }
-            else if (animation.GetBool("stopped"))
+            else if (animator.GetBool("stopped"))
             {
                 pRg.velocity = new Vector2(0, jumpForce);
             }
         }
-        else if (collision.gameObject.tag != "Enemy" && !animation.GetBool("returning"))
+        else if (collision.gameObject.tag == "Item"){}
+        else if (collision.gameObject.tag != "Enemy" && !animator.GetBool("returning"))
         {
             GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
-            animation.SetBool("stopped", true);
-            animation.Play("Stopped", 0, 0.2f);
+            animator.SetBool("stopped", true);
+            animator.Play("stopped", 0, 0.2f);
         } 
     }
 }

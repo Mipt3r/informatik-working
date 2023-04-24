@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class playerScript : MonoBehaviour
 {
@@ -15,6 +15,14 @@ public class playerScript : MonoBehaviour
 
     public Collider2D objectCollider;
     public Collider2D anotherCollider;
+    private Points points;
+    private Text itemText;
+    private GameObject itemOutline;
+    private List<GameObject> itemList = new List<GameObject>();
+    public GameObject explosionAttack;
+    public GameObject healEffect;
+    public float itemCooldown = 2f;
+    private float currentItemCooldown = 0;
 
     //edited values for making the respawn mechanic work properly
     public float movementSpeed;
@@ -26,6 +34,9 @@ public class playerScript : MonoBehaviour
         float moveVelocity;
     void Start()
     {
+        itemText = GameObject.FindWithTag("ItemText").GetComponent<Text>();
+        points = GameObject.FindWithTag("PointCounter").GetComponent<Points>();
+        itemOutline = GameObject.FindWithTag("ItemOutline");
         Player = GameObject.FindGameObjectWithTag("Player");
         rb = GetComponent<Rigidbody2D>();
         speed = movementSpeed;
@@ -36,8 +47,15 @@ public class playerScript : MonoBehaviour
     //Grounded Vars
     bool isGrounded = true;
         
-        void Update()
+    void Update()
     {
+
+        if (currentItemCooldown >= 0.1)
+        {
+            currentItemCooldown -= Time.deltaTime;
+        }
+
+
 
         //checks if the player is touching the ground
         if (objectCollider.IsTouching(anotherCollider))
@@ -59,7 +77,7 @@ public class playerScript : MonoBehaviour
 
         }
 
-        if (lives < 0)
+        if (lives <= 0)
         {
             StartCoroutine(Dead());
         }
@@ -94,7 +112,58 @@ public class playerScript : MonoBehaviour
             moveVelocity = speed;
         }
 
-        GetComponent<Rigidbody2D>().velocity = new Vector2(moveVelocity, GetComponent<Rigidbody2D>().velocity.y);
+        //nick: cycles forward in itemList
+        if (Input.GetButtonDown("Item forw") && itemList.Count > 0)
+        {
+            itemList.Add(itemList[0]);
+            itemList.RemoveAt(0);
+            UpdateItem();
+        }
 
+        //nick: cycles backward in itemList
+        if (Input.GetButtonDown("Item backw") && itemList.Count > 0)
+        {
+            itemList.Insert(0, itemList[itemList.Count - 1]);
+            itemList.RemoveAt(itemList.Count - 1);
+            UpdateItem();
+        }
+
+        if (Input.GetButtonDown("Item use")  && itemList.Count > 0 && currentItemCooldown <= 0.1f)
+        {
+            if (itemList[0].name == "EXPLOSION")
+            {
+                Instantiate(itemList[0].GetComponent<ItemScript>().effect, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
+                Destroy(GameObject.FindGameObjectWithTag("Weapon"), 0.25f);
+            }
+
+            if (itemList[0].name == "HEAL" && points.currentPoints >= 100)
+            {
+                Instantiate(itemList[0].GetComponent<ItemScript>().effect, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
+                lives += 1;
+                Destroy(GameObject.FindGameObjectWithTag("Heal"), 0.5f);
+                points.GetPoints(-100);
+            } 
+            currentItemCooldown += itemCooldown;
+        }
+
+        GetComponent<Rigidbody2D>().velocity = new Vector2(moveVelocity, GetComponent<Rigidbody2D>().velocity.y);
+    }
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        //nick: adds item to itemList when touching an item
+        if (collision.gameObject.tag == "Item")
+        {
+            itemList.Insert(0, collision.gameObject);
+            collision.gameObject.transform.position = new Vector2(-300, -300);
+            UpdateItem();
+        }
+    }
+
+    void UpdateItem()
+    {
+        Destroy(GameObject.FindWithTag("ItemUI"));
+        var equippedItem = Instantiate(itemList[0].GetComponent<ItemScript>().UI, new Vector2(itemOutline.transform.position.x, itemOutline.transform.position.y), Quaternion.identity);
+        equippedItem.transform.SetParent(itemOutline.transform);
+        itemText.text = itemList[0].name;
     }
 }
