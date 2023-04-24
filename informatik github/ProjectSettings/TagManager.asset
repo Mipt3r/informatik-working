@@ -9,6 +9,7 @@ TagManager:
   - Weapon
   - Enemy
   - ThrownWeapon
+  - Ground
   layers:
   - Default
   - TransparentFX
