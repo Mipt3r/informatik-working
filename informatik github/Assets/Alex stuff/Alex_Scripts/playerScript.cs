@@ -23,6 +23,8 @@ public class playerScript : MonoBehaviour
     public GameObject healEffect;
     public float itemCooldown = 2f;
     private float currentItemCooldown = 0;
+    public HealthBar healthbar;
+    public LayerMask groundLayer;
 
     //edited values for making the respawn mechanic work properly
     public float movementSpeed;
@@ -31,9 +33,9 @@ public class playerScript : MonoBehaviour
     //Movement
         float speed;
         float jump;
-        float moveVelocity;
     void Start()
     {
+        healthbar.SetMaxHealth(lives);
         itemText = GameObject.FindWithTag("ItemText").GetComponent<Text>();
         points = GameObject.FindWithTag("PointCounter").GetComponent<Points>();
         itemOutline = GameObject.FindWithTag("ItemOutline");
@@ -44,8 +46,6 @@ public class playerScript : MonoBehaviour
     }
    
 
-    //Grounded Vars
-    bool isGrounded = true;
         
     void Update()
     {
@@ -57,59 +57,22 @@ public class playerScript : MonoBehaviour
 
 
 
-        //checks if the player is touching the ground
-        if (objectCollider.IsTouching(anotherCollider))
-        {
-           isGrounded = true;
-        }
-        else
-        {
-         isGrounded = false;
-        }
+        
            
         //Jumping
-        if (Input.GetButton("Jump"))
+        if (Input.GetButton("Jump") && IsGrounded())
         {
-            if (isGrounded)
-            {
-                GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, jump);
-            }
-
+            GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, jump);
         }
-
-        if (lives <= 0)
-        {
-            StartCoroutine(Dead());
-        }
-
-        IEnumerator Dead()
-            {
-            Debug.Log("dead");
-            speed = 0;
-            jump = 0;
-            GetComponent<Renderer>().enabled = false;
-            Player.transform.position = RespawnPoint.position;
-            lives = 3;
-            yield return new WaitForSeconds(DeathTime);
-            speed = movementSpeed;
-            jump = movementJump;
-            Debug.Log("respawn");
-            GetComponent<Renderer>().enabled = true;
-            
-        }
-
-        moveVelocity = 0;
 
         //Left Right Movement
         if (Input.GetButton("Left"))
         {
             gameObject.transform.rotation = Quaternion.Euler(0, 180f, 0);
-            moveVelocity = -speed;
         }
         if (Input.GetButton("Right"))
         {
             gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
-            moveVelocity = speed;
         }
 
         //nick: cycles forward in itemList
@@ -139,16 +102,31 @@ public class playerScript : MonoBehaviour
             if (itemList[0].name == "HEAL" && points.currentPoints >= 100)
             {
                 Instantiate(itemList[0].GetComponent<ItemScript>().effect, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
-                lives += 1;
+                TakeDamage(-1);
                 Destroy(GameObject.FindGameObjectWithTag("Heal"), 0.5f);
                 points.GetPoints(-100);
             } 
             currentItemCooldown += itemCooldown;
         }
 
-        GetComponent<Rigidbody2D>().velocity = new Vector2(moveVelocity, GetComponent<Rigidbody2D>().velocity.y);
+        float dirX = Input.GetAxisRaw("Horizontal");
+        
+        rb.velocity = new Vector2(dirX * speed, rb.velocity.y);
     }
-    void OnCollisionEnter2D(Collision2D collision)
+
+    bool IsGrounded() {
+    Vector2 position = transform.position;
+    Vector2 direction = Vector2.down;
+    float distance = 1.0f;
+    
+    RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, groundLayer);
+    if (hit.collider != null) {
+        return true;
+    }
+    
+    return false;
+}
+    void OnTriggerEnter2D(Collider2D collision)
     {
         //nick: adds item to itemList when touching an item
         if (collision.gameObject.tag == "Item")
@@ -165,5 +143,39 @@ public class playerScript : MonoBehaviour
         var equippedItem = Instantiate(itemList[0].GetComponent<ItemScript>().UI, new Vector2(itemOutline.transform.position.x, itemOutline.transform.position.y), Quaternion.identity);
         equippedItem.transform.SetParent(itemOutline.transform);
         itemText.text = itemList[0].name;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        lives -= damage;
+        
+        if (lives <= 0)
+        {
+            StartCoroutine(Dead());
+        }
+        else if (lives > 3)
+        {
+            lives = 3;
+        }
+
+        healthbar.SetHealth(lives);
+
+
+
+        IEnumerator Dead()
+            {
+            Debug.Log("dead");
+            speed = 0;
+            jump = 0;
+            GetComponent<Renderer>().enabled = false;
+            Player.transform.position = RespawnPoint.position;
+            lives = 3;
+            yield return new WaitForSeconds(DeathTime);
+            speed = movementSpeed;
+            jump = movementJump;
+            Debug.Log("respawn");
+            GetComponent<Renderer>().enabled = true;
+            
+        }
     }
 }

@@ -32,7 +32,7 @@ public class Damage : MonoBehaviour
             playerScript playerScript = gameObject.GetComponent<playerScript>();
 
             
-                player.GetComponent<playerScript>().lives -= damageAmount;
+                player.GetComponent<playerScript>().TakeDamage(damageAmount);
                 Debug.Log("Player health: " + player.GetComponent<playerScript>().lives);
         }
     }
