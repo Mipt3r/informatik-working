@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class playerMovementTest : MonoBehaviour
 {
-    Rigidbody2D rb;
+    private Rigidbody2D rb;
+
     void Start()
     {
        rb = GetComponent<Rigidbody2D>();
@@ -41,7 +42,6 @@ public class playerMovementTest : MonoBehaviour
         if (Input.GetButton("Left"))
         {
             gameObject.transform.rotation = Quaternion.Euler(0, 180f, 0);
-
             moveVelocity = -speed;
         }
         if (Input.GetButton("Right"))
