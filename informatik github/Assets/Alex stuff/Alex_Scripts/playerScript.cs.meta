@@ -3,7 +3,16 @@ guid: 55933c3c035362f4380fb2a2905130c0
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - Player: {fileID: 1580639895329854812, guid: 0f9c9f77dde2e7b4399230dbf71ef44c, type: 3}
+  - RespawnPoint: {fileID: 6913644105390535934, guid: b7957d0690e2bba4e9ad312b4968578b, type: 3}
+  - objectCollider: {fileID: 1580639895329854802, guid: 0f9c9f77dde2e7b4399230dbf71ef44c, type: 3}
+  - anotherCollider: {fileID: 2293034882060814969, guid: 73bccd65e19199b408838733a1bcff10, type: 3}
+  - explosionAttack: {instanceID: 0}
+  - healEffect: {instanceID: 0}
+  - healthbar: {instanceID: 0}
+  - checkedCheckPoint: {instanceID: 0}
+  - unCheckedCheckPoint: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

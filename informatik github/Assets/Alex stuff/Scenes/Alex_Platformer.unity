@@ -180,11 +180,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7957d0690e2bba4e9ad312b4968578b, type: 3}
---- !u!4 &617925073 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6913644105390535935, guid: b7957d0690e2bba4e9ad312b4968578b, type: 3}
-  m_PrefabInstance: {fileID: 267971691}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &644693418
 GameObject:
   m_ObjectHideFlags: 0
@@ -351,6 +346,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7444e0fe3429c054da07d5f3dc72ef8d, type: 3}
+--- !u!1 &1184482252 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6913644105390535934, guid: b7957d0690e2bba4e9ad312b4968578b, type: 3}
+  m_PrefabInstance: {fileID: 267971691}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1699787035
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -710,7 +710,7 @@ PrefabInstance:
     - target: {fileID: 1580639895329854801, guid: 0f9c9f77dde2e7b4399230dbf71ef44c, type: 3}
       propertyPath: RespawnPoint
       value: 
-      objectReference: {fileID: 617925073}
+      objectReference: {fileID: 1184482252}
     - target: {fileID: 1580639895329854801, guid: 0f9c9f77dde2e7b4399230dbf71ef44c, type: 3}
       propertyPath: anotherCollider
       value: 

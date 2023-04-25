@@ -13,8 +13,7 @@ public class playerScript : MonoBehaviour
     //why is nothing working
     public int DeathTime;
 
-    public Collider2D objectCollider;
-    public Collider2D anotherCollider;
+
     private Points points;
     private Text itemText;
     private GameObject itemOutline;
@@ -28,15 +27,15 @@ public class playerScript : MonoBehaviour
     public Sprite checkedCheckPoint;
     public Sprite unCheckedCheckPoint;
     private Animator animator;
-
-
-    //edited values for making the respawn mechanic work properly
+    
+    //Movement variables, these are there twice so the respawn mechanic works
+    float speed;
+    float jump;
     public float movementSpeed;
-        public float movementJump;
+    public float movementJump;
 
-    //Movement
-        float speed;
-        float jump;
+
+
     void Start()
     {
         healthbar.SetMaxHealth(lives);
