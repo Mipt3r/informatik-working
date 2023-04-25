@@ -60,9 +60,9 @@ GameObject:
   - component: {fileID: 8280790473573973358}
   - component: {fileID: 8280790473573973347}
   - component: {fileID: 8280790473573973346}
-  - component: {fileID: 8280790473573973345}
   - component: {fileID: 8280790473573973344}
   - component: {fileID: 8280790473573973359}
+  - component: {fileID: -2752461704365705794}
   m_Layer: 0
   m_Name: player
   m_TagString: Player
@@ -159,30 +159,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &8280790473573973345
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8280790473573973352}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55933c3c035362f4380fb2a2905130c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lives: 3
-  RespawnPoint: {fileID: 0}
-  DeathTime: 1
-  itemCooldown: 2
-  healthbar: {fileID: 0}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  checkedCheckPoint: {fileID: -93627936, guid: b89a31523d770884088996645d703675, type: 3}
-  unCheckedCheckPoint: {fileID: 644494886, guid: b89a31523d770884088996645d703675, type: 3}
-  movementSpeed: 10
-  movementJump: 10
 --- !u!61 &8280790473573973344
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -229,3 +205,30 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-2752461704365705794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8280790473573973352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55933c3c035362f4380fb2a2905130c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lives: 3
+  Player: {fileID: 0}
+  RespawnPoint: {fileID: 6913644105390535934, guid: b7957d0690e2bba4e9ad312b4968578b, type: 3}
+  DeathTime: 0
+  explosionAttack: {fileID: 0}
+  healEffect: {fileID: 0}
+  itemCooldown: 2
+  healthbar: {fileID: 0}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  checkedCheckPoint: {fileID: 0}
+  unCheckedCheckPoint: {fileID: 0}
+  movementSpeed: 0
+  movementJump: 0
