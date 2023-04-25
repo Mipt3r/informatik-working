@@ -12,13 +12,11 @@ public class ThrownWeaponScript : MonoBehaviour
     private Transform pTf;
     private Rigidbody2D pRg;
     private Animator animator;
-    public float time = 2;
     private float currentTime;
     private Vector2 returnVect;
 
     void Start()
     {
-        currentTime = time;
         tf = GetComponent<Transform>();
         rg = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
