@@ -7,6 +7,7 @@ public class ThrownWeaponScript : MonoBehaviour
 {
 
     public float jumpForce = 15;
+    public float maxDistance = 10;
     private Transform tf;
     private Rigidbody2D rg;
     private Transform pTf;
@@ -26,13 +27,17 @@ public class ThrownWeaponScript : MonoBehaviour
 
     void Update()
     {
+        returnVect = new Vector2(pTf.position.x - tf.position.x, pTf.position.y - tf.position.y);
+
         if (animator.GetBool("returning"))
         {
-            returnVect = new Vector2(pTf.position.x - tf.position.x, pTf.position.y - tf.position.y);
-            
             returnVect /= returnVect.magnitude;
-
             rg.velocity = returnVect * 20f;
+            
+        }
+        else if (returnVect.magnitude >= maxDistance)
+        {
+            animator.SetBool("returning", true);
         }
     }
 
