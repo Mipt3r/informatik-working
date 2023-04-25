@@ -52,8 +52,7 @@ public class ThrownWeaponScript : MonoBehaviour
                 pRg.velocity = new Vector2(0, jumpForce);
             }
         }
-        else if (collision.gameObject.tag == "Item"){}
-        else if (collision.gameObject.tag != "Enemy" && !animator.GetBool("returning"))
+        else if (collision.gameObject.tag == "Ground" && !animator.GetBool("returning"))
         {
             GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
             animator.SetBool("stopped", true);

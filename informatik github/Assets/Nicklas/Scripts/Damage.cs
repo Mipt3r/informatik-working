@@ -23,19 +23,6 @@ public class Damage : MonoBehaviour
         
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            //If the GameObject has the same tag as specified, output this message in the console
-
-            playerScript playerScript = gameObject.GetComponent<playerScript>();
-
-            
-                player.GetComponent<playerScript>().lives -= damageAmount;
-                Debug.Log("Player health: " + player.GetComponent<playerScript>().lives);
-        }
-    }
         
  
 
@@ -52,6 +39,16 @@ public class Damage : MonoBehaviour
             //If the GameObject's name matches the one you suggest, output this message in the console
             Death();
             
+        }
+        if (collision.gameObject.tag == "Player")
+        {
+            //If the GameObject has the same tag as specified, output this message in the console
+
+            playerScript playerScript = gameObject.GetComponent<playerScript>();
+
+            
+                player.GetComponent<playerScript>().TakeDamage(damageAmount);
+                Debug.Log("Player health: " + player.GetComponent<playerScript>().lives);
         }
     }
 
