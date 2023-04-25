@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 7841716415519618699}
   - component: {fileID: 7841716415519618700}
   - component: {fileID: 7841716415519618698}
-  - component: {fileID: 7841716415519618697}
+  - component: {fileID: 3743917977799302400}
   m_Layer: 0
   m_Name: Death
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -96,7 +96,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 6200000, guid: 92a40a1883d68d94ea14b1053ed4c3ce, type: 2}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -112,7 +112,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &7841716415519618697
+--- !u!114 &3743917977799302400
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,8 +121,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 7841716415519618701}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95597244a8a0f7c41bcb5d97b65b8582, type: 3}
+  m_Script: {fileID: 11500000, guid: fd08275cf2722f94eae28c31d433b99e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointWorth: 0
-  damageAmount: 1
