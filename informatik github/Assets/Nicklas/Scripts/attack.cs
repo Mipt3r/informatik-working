@@ -10,8 +10,8 @@ public class Attack : MonoBehaviour
     public float cooldown = 0.25F;
     public float attackTime = 0.1f;
 
-    
-
+    private float currentAttackTime = 0;
+    private Animator animator;
     private float currentCooldown = 0;
     private Transform player;
     private string thrownWeaponTag = "ThrownWeapon";
@@ -25,6 +25,7 @@ public class Attack : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        animator = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
         points = GameObject.FindWithTag("PointCounter").GetComponent<Points>();
     }
 
@@ -36,6 +37,15 @@ public class Attack : MonoBehaviour
             currentCooldown -= Time.deltaTime;
         }
 
+        if (currentAttackTime >= 0.1)
+        {
+            currentAttackTime -= Time.deltaTime;
+        }
+        else
+        {
+            animator.SetBool("attacking", false);
+        }
+
         
         if (currentCooldown <= 0.1 && Input.GetButtonDown("Attack") && GameObject.FindGameObjectsWithTag(thrownWeaponTag).Length == 0)
         {
@@ -43,18 +53,20 @@ public class Attack : MonoBehaviour
             Instantiate(hitBox, new Vector2(transform.position.x, transform.position.y), Quaternion.identity).transform.parent = transform;
             Destroy(GameObject.FindWithTag(weaponTag), attackTime);
             currentCooldown += cooldown;
+            currentAttackTime += attackTime;
+            animator.SetBool("attacking", true);
         }
 
         if (Input.GetButtonDown("Throw"))
         {
-            if (currentCooldown <= 0.5 && GameObject.FindGameObjectsWithTag(thrownWeaponTag).Length == 0)
+            if (currentCooldown <= 0.1 && GameObject.FindGameObjectsWithTag(thrownWeaponTag).Length == 0)
             {
                 Instantiate(weaponThrown, new Vector2(transform.position.x, transform.position.y), Quaternion.identity).GetComponent<Rigidbody2D>().velocity = new Vector2(transform.position.x - player.position.x, 0) * throwVelocity;
                 currentCooldown += cooldown;
             }
             else
             {
-                if (currentCooldown <= 0.5 && !GameObject.FindGameObjectWithTag(thrownWeaponTag).GetComponent<Animator>().GetBool("returning"))
+                if (currentCooldown <= 0.1 && !GameObject.FindGameObjectWithTag(thrownWeaponTag).GetComponent<Animator>().GetBool("returning"))
                 {
                     GameObject.FindGameObjectWithTag(thrownWeaponTag).GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
                     GameObject.FindGameObjectWithTag(thrownWeaponTag).GetComponent<Animator>().SetBool("returning", true);

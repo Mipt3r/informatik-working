@@ -40,7 +40,20 @@ public class ThrownWeaponScript : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        if (collision.gameObject.tag == "Ground" && !animator.GetBool("returning"))
+        {
+            GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+            animator.SetBool("stopped", true);
+            animator.Play("stopped", 0, 0.2f);
+        }
+        else if (collision.gameObject.tag == "Enemy")
+        {
+            animator.SetBool("returning", true);
+        }
+    }
+
+    void OnTriggerStay2D(Collider2D collision)
+    {
         if (collision.gameObject.tag == "Player")
         {
             if (animator.GetBool("returning"))
@@ -52,11 +65,5 @@ public class ThrownWeaponScript : MonoBehaviour
                 pRg.velocity = new Vector2(0, jumpForce);
             }
         }
-        else if (collision.gameObject.tag == "Ground" && !animator.GetBool("returning"))
-        {
-            GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
-            animator.SetBool("stopped", true);
-            animator.Play("stopped", 0, 0.2f);
-        } 
     }
 }
