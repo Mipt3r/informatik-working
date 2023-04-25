@@ -8,19 +8,12 @@ public class playerScript : MonoBehaviour
     //enables the player to move and defines public uses like lives and gameobjects that need to be connected
     Rigidbody2D rb;
     public int lives = 3;
-    public GameObject Player;
     public GameObject RespawnPoint;
-    //why is nothing working
     public int DeathTime;
-
-    public Collider2D objectCollider;
-    public Collider2D anotherCollider;
     private Points points;
     private Text itemText;
     private GameObject itemOutline;
     private List<GameObject> itemList = new List<GameObject>();
-    public GameObject explosionAttack;
-    public GameObject healEffect;
     public float itemCooldown = 2f;
     private float currentItemCooldown = 0;
     public HealthBar healthbar;
@@ -44,7 +37,6 @@ public class playerScript : MonoBehaviour
         itemText = GameObject.FindWithTag("ItemText").GetComponent<Text>();
         points = GameObject.FindWithTag("PointCounter").GetComponent<Points>();
         itemOutline = GameObject.FindWithTag("ItemOutline");
-        Player = GameObject.FindGameObjectWithTag("Player");
         rb = GetComponent<Rigidbody2D>();
         speed = movementSpeed;
         jump = movementJump;
@@ -180,7 +172,7 @@ public class playerScript : MonoBehaviour
             speed = 0;
             jump = 0;
             GetComponent<Renderer>().enabled = false;
-            Player.transform.position = RespawnPoint.transform.position;
+            GetComponent<Transform>().position = RespawnPoint.transform.position;
             lives = 3;
             yield return new WaitForSeconds(DeathTime);
             speed = movementSpeed;
