@@ -27,6 +27,7 @@ public class playerScript : MonoBehaviour
     public LayerMask groundLayer;
     public Sprite checkedCheckPoint;
     public Sprite unCheckedCheckPoint;
+    private Animator animator;
 
 
     //edited values for making the respawn mechanic work properly
@@ -39,6 +40,7 @@ public class playerScript : MonoBehaviour
     void Start()
     {
         healthbar.SetMaxHealth(lives);
+        animator = GetComponent<Animator>();
         itemText = GameObject.FindWithTag("ItemText").GetComponent<Text>();
         points = GameObject.FindWithTag("PointCounter").GetComponent<Points>();
         itemOutline = GameObject.FindWithTag("ItemOutline");
@@ -58,10 +60,6 @@ public class playerScript : MonoBehaviour
             currentItemCooldown -= Time.deltaTime;
         }
 
-
-
-        
-           
         //Jumping
         if (Input.GetButton("Jump") && IsGrounded())
         {
@@ -107,13 +105,15 @@ public class playerScript : MonoBehaviour
                 Instantiate(itemList[0].GetComponent<ItemScript>().effect, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
                 TakeDamage(-1);
                 Destroy(GameObject.FindGameObjectWithTag("Heal"), 0.5f);
-                points.GetPoints(-100);
+                points.GetPoints(-50);
             } 
             currentItemCooldown += itemCooldown;
         }
 
         float dirX = Input.GetAxisRaw("Horizontal");
         
+        animator.SetFloat("speed", dirX * dirX);
+
         rb.velocity = new Vector2(dirX * speed, rb.velocity.y);
     }
 
