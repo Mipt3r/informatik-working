@@ -100,7 +100,7 @@ public class PlatformerPlayerController : MonoBehaviour
         rb2D.velocity = new Vector2(rb2D.velocity.x, jumpForce + Mathf.Abs(rb2D.velocity.x) * runningJumpExpantion);
         onGround = false;
         stoppedJumping = false;
-        coyoteTimeTimer = 2*coyoteTime;
+        coyoteTimeTimer = 2 * coyoteTime;
     }
 
     // Testing if the player is on the ground
@@ -111,7 +111,7 @@ public class PlatformerPlayerController : MonoBehaviour
             onGround = true;
             stoppedJumping = false;
             coyoteTimeTimer = 0;
-            if(holdingTimer < holdingTime) { Jump(); holdingTimer = holdingTime; }
+            if ( holdingTimer < holdingTime ) { Jump(); holdingTimer = holdingTime; }
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -122,7 +122,7 @@ public class PlatformerPlayerController : MonoBehaviour
             stoppedJumping = false;
             coyoteTimeTimer = 0;
             holdingTimer = 0;
-            if (holdingTimer < holdingTime) { Jump(); holdingTimer = holdingTime; }
+            if ( holdingTimer < holdingTime ) { Jump(); holdingTimer = holdingTime; }
         }
     }
 
@@ -139,12 +139,11 @@ public class PlatformerPlayerController : MonoBehaviour
                 Jump();
                 coyoteTimeTimer = coyoteTime;
             }
-            else
-            {
-                holdingTimer = 0;
-            }
+            else { holdingTimer = 0; }
         }
     }
+    
+    // dis dont work at all
     void UpdateSprite()
     {
         // If the player is not moving on the x-axis, use the idle sprite
